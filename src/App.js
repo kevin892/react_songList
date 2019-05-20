@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Container from './Container';
+import SongForm from './SongForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+        songs: [{
+            id: 1,
+            title: "Call Me Maybe"
+        },{
+            id: 2,
+            title: "For Whom The Bell Tolls"
+        }]
+    }
+
+  addSong = (song) => {
+    const newSong = {...song, id:Date.now()}
+    const songs= [...this.state.songs, newSong]
+    this.setState({
+      songs
+    })
+  }
+
+  removeSong = (id) => {
+    const songs = this.state.songs.filter(song => song.id !== id)
+    this.setState({
+      songs
+    })
+  }
+
+  render(){
+    return(
+      <div>
+        <h1>Song List</h1>
+        <Container songs={this.state.songs} removeSong={this.removeSong}/>
+        <SongForm addSong={this.addSong}/>
+      </div>
+    )
+  }
 }
 
 export default App;
